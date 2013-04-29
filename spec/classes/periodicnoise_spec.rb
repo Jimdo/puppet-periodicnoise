@@ -13,8 +13,8 @@ describe 'periodicnoise' do
 
   it 'should configure periodicnoise globally for NSCA helpers in oder to see failures in nagios' do
     contain_file('/etc/periodicnoise/config.ini')\
-	.with_content(%r{send_nsca}) \
-	.with_content(%r{somehost.example.com}) \
-	.with_content(%r{monitor.example.com})
+      .with_content(%r{send_nsca}) \
+      .with_content(%r{somehost.example.com}) \
+      .with_content(%r{monitor.example.com})
   end
 end
