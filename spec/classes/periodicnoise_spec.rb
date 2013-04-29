@@ -8,11 +8,11 @@ describe 'periodicnoise' do
   }}
 
   it 'should install the package periodicnoise in order to provide the pn binary' do
-    contain_package('periodicnoise').with_ensure('present')
+    should contain_package('periodicnoise').with_ensure('present')
   end
 
   it 'should configure periodicnoise globally for NSCA helpers in oder to see failures in nagios' do
-    contain_file('/etc/periodicnoise/config.ini')\
+    should contain_file('/etc/periodicnoise/config.ini')\
       .with_content(%r{send_nsca}) \
       .with_content(%r{somehost.example.com}) \
       .with_content(%r{monitor.example.com})
