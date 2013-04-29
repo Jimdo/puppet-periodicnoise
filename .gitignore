@@ -1,0 +1,11 @@
+# Bundler
+/.bundle/
+/bin/
+/bundle/
+/vendor/gems/
+
+# Vagrant
+.vagrant
+
+# Fixtures
+/spec/fixtures/

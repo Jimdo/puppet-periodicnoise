@@ -1,0 +1,5 @@
+[monitoring]
+OK       = echo -e "<%= send_as_host -%>;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H <%= send_to_host -%> -d ";"
+WARNING  = echo -e "<%= send_as_host -%>;%(event);1;%(message)\n" |/usr/sbin/send_nsca -H <%= send_to_host -%> -d ";"
+CRITICAL = echo -e "<%= send_as_host -%>;%(event);2;%(message)\n" |/usr/sbin/send_nsca -H <%= send_to_host -%> -d ";"
+UNKNOWN  = echo -e "<%= send_as_host -%>;%(event);3;%(message)\n" |/usr/sbin/send_nsca -H <%= send_to_host -%> -d ";"
