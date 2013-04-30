@@ -1,0 +1,12 @@
+<%
+option_string = ''
+
+option_string << " -E #{event}" if @event
+option_string << " -e false" if @_disable_stderr_log
+option_string << " -i #{execution_interval}" if @execution_interval
+option_string << " -k true" if @_kill_running_instance
+option_string << " -o false" if @_disable_stdout_log
+option_string << " -s true" if @_use_syslog
+option_string << " -t #{execution_timeout}" if @execution_timeout
+-%>
+pn<%= option_string -%> <%= @command -%>
