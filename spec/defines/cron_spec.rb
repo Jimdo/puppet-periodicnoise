@@ -15,7 +15,8 @@ describe 'periodicnoise::cron', :type => :define do
       .with_command('pn some_cron_command') \
       .with_user('root') \
       .with_minute(0) \
-      .with_hour(0)
+      .with_hour(0) \
+      .with_require('Package[periodicnoise]')
   end
 
   context "with event set" do
