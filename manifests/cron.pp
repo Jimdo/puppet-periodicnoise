@@ -35,6 +35,7 @@ define periodicnoise::cron (
     command => template('periodicnoise/cron.erb'),
     user    => $user,
     minute  => $minute,
-    hour    => $hour
+    hour    => $hour,
+    require => Package['periodicnoise']
   }
 }
