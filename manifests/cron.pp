@@ -3,6 +3,9 @@ define periodicnoise::cron (
   $user,
   $minute,
   $hour,
+  $weekday = '*',
+  $monthday = '*',
+  $month = '*',
   $event = undef,
   $disable_stderr_log = undef,
   $execution_interval = undef,
@@ -32,10 +35,13 @@ define periodicnoise::cron (
   }
 
   cron { $name:
-    command => template('periodicnoise/cron.erb'),
-    user    => $user,
-    minute  => $minute,
-    hour    => $hour,
-    require => Package['periodicnoise']
+    command   => template('periodicnoise/cron.erb'),
+    user      => $user,
+    minute    => $minute,
+    hour      => $hour,
+    weekday   => $weekday,
+    monthday  => $monthday,
+    month     => $month,
+    require   => Package['periodicnoise']
   }
 }

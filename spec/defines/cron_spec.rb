@@ -16,7 +16,28 @@ describe 'periodicnoise::cron', :type => :define do
       .with_user('root') \
       .with_minute(0) \
       .with_hour(0) \
+      .with_weekday('*') \
+      .with_monthday('*') \
+      .with_month('*') \
       .with_require('Package[periodicnoise]')
+  end
+
+  context "with weekday, monthday and month set" do
+    let (:params) {{
+      :command  => 'some_cron_command',
+      :user     => 'root',
+      :minute   => 0,
+      :hour     => 0,
+      :weekday  => 1,
+      :monthday => 2,
+      :month    => 3
+    }}
+    it "should only run on 2nd of march if it is a monday" do
+      should contain_cron('some_cronjob') \
+        .with_weekday(1) \
+        .with_monthday(2) \
+        .with_month(3)
+    end
   end
 
   context "with event set" do
