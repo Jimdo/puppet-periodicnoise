@@ -140,17 +140,17 @@ describe 'periodicnoise::cron', :type => :define do
 
   context "with all params enabled" do
     let (:params) {{
-      :command  => 'some_cron_command',
-      :user     => 'root',
-      :minute   => 0,
-      :hour     => 0,
-      :event    => 'some_event',
-      :disable_stderr_log => true,
-      :max_execution_start_delay => '2m',
-      :kill_running_instance  => true,
-      :disable_stdout_log => true,
-      :use_syslog => true,
-      :execution_timeout  => '2m'
+      :command                    => 'some_cron_command',
+      :user                       => 'root',
+      :minute                     => 0,
+      :hour                       => 0,
+      :event                      => 'some_event',
+      :disable_stderr_log         => true,
+      :max_execution_start_delay  => '2m',
+      :kill_running_instance      => true,
+      :disable_stdout_log         => true,
+      :use_syslog                 => true,
+      :execution_timeout          => '2m'
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
