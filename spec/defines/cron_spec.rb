@@ -62,13 +62,13 @@ describe 'periodicnoise::cron', :type => :define do
       :hour     => 0,
       :disable_stderr_log => true
     }}
-    it "should create a cronjob with event set" do
+    it "should create a cronjob with stderr logging disabled" do
       should contain_cron('some_cronjob') \
         .with_command('pn -e false some_cron_command')
     end
   end
 
-  context "with  execution interval set to 2m" do
+  context "with execution interval set to 2 minutes" do
     let (:params) {{
       :command            => 'some_cron_command',
       :user               => 'root',
@@ -76,13 +76,13 @@ describe 'periodicnoise::cron', :type => :define do
       :hour               => 0,
       :execution_interval => '2m'
     }}
-    it "should create a cronjob with event set" do
+    it "should create a cronjob with execution interval set to 2 minutes" do
       should contain_cron('some_cronjob') \
         .with_command('pn -i 2m some_cron_command')
     end
   end
 
-  context "with  kill already running instance enabled" do
+  context "with kill already running instance enabled" do
     let (:params) {{
       :command                => 'some_cron_command',
       :user                   => 'root',
@@ -90,7 +90,7 @@ describe 'periodicnoise::cron', :type => :define do
       :hour                   => 0,
       :kill_running_instance  => true
     }}
-    it "should create a cronjob with event set" do
+    it "should create a cronjob with kill already running instance enabled" do
       should contain_cron('some_cronjob') \
         .with_command('pn -k true some_cron_command')
     end
@@ -104,7 +104,7 @@ describe 'periodicnoise::cron', :type => :define do
       :hour       => 0,
       :disable_stdout_log => true
     }}
-    it "should create a cronjob with event set" do
+    it "should create a cronjob with disabled stdout logging" do
       should contain_cron('some_cronjob') \
         .with_command('pn -o false some_cron_command')
     end
@@ -118,13 +118,13 @@ describe 'periodicnoise::cron', :type => :define do
       :hour       => 0,
       :use_syslog => true
     }}
-    it "should create a cronjob with event set" do
+    it "should create a cronjob with syslog logging enabled" do
       should contain_cron('some_cronjob') \
         .with_command('pn -s true some_cron_command')
     end
   end
 
-  context "with execution timeout set to 2m" do
+  context "with execution timeout set to 2 minutes" do
     let (:params) {{
       :command            => 'some_cron_command',
       :user               => 'root',
@@ -132,7 +132,7 @@ describe 'periodicnoise::cron', :type => :define do
       :hour               => 0,
       :execution_timeout  => '2m'
     }}
-    it "should create a cronjob with event set" do
+    it "should create a cronjob with execution timeout set to 2 minutes" do
       should contain_cron('some_cronjob') \
         .with_command('pn -t 2m some_cron_command')
     end
