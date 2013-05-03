@@ -68,7 +68,7 @@ describe 'periodicnoise::cron', :type => :define do
     end
   end
 
-  context "with execution interval set to 2m" do
+  context "with execution interval set to 2 minutes" do
     let (:params) {{
       :command            => 'some_cron_command',
       :user               => 'root',
@@ -76,7 +76,7 @@ describe 'periodicnoise::cron', :type => :define do
       :hour               => 0,
       :execution_interval => '2m'
     }}
-    it "should create a cronjob with execution interval set to 2m" do
+    it "should create a cronjob with execution interval set to 2 minutes" do
       should contain_cron('some_cronjob') \
         .with_command('pn -i 2m some_cron_command')
     end
@@ -124,7 +124,7 @@ describe 'periodicnoise::cron', :type => :define do
     end
   end
 
-  context "with execution timeout set to 2m" do
+  context "with execution timeout set to 2 minutes" do
     let (:params) {{
       :command            => 'some_cron_command',
       :user               => 'root',
@@ -132,7 +132,7 @@ describe 'periodicnoise::cron', :type => :define do
       :hour               => 0,
       :execution_timeout  => '2m'
     }}
-    it "should create a cronjob with execution timeout set to 2m" do
+    it "should create a cronjob with execution timeout set to 2 minutes" do
       should contain_cron('some_cronjob') \
         .with_command('pn -t 2m some_cron_command')
     end
