@@ -8,7 +8,7 @@ define periodicnoise::cron (
   $month = '*',
   $event = undef,
   $disable_stderr_log = undef,
-  $execution_interval = undef,
+  $max_execution_start_delay = undef,
   $kill_running_instance = undef,
   $disable_stdout_log = undef,
   $use_syslog = undef,

@@ -9,3 +9,6 @@
 
 # Fixtures
 /spec/fixtures/
+
+#swap
+*.swp
