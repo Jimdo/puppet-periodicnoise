@@ -8,5 +8,6 @@ option_string << " -k true" if @_kill_running_instance
 option_string << " -o false" if @_disable_stdout_log
 option_string << " -s true" if @_use_syslog
 option_string << " -t #{execution_timeout}" if @execution_timeout
+option_string << " -n" if @_wrap_nagios_plugin
 -%>
 pn<%= option_string -%> <%= @command -%>

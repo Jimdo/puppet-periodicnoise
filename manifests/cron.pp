@@ -12,7 +12,8 @@ define periodicnoise::cron (
   $kill_running_instance = undef,
   $disable_stdout_log = undef,
   $use_syslog = undef,
-  $execution_timeout = undef ){
+  $execution_timeout = undef,
+  $wrap_nagios_plugin = undef ){
 
   $_disable_stderr_log = $disable_stderr_log ? {
     true  => true,
@@ -30,6 +31,11 @@ define periodicnoise::cron (
   }
 
   $_use_syslog = $use_syslog ? {
+    true  => true,
+    default => false
+  }
+
+  $_wrap_nagios_plugin = $wrap_nagios_plugin ? {
     true  => true,
     default => false
   }
