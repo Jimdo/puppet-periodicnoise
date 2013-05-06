@@ -50,7 +50,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn \'-E=some_event\' some_cron_command')
+        .with_command('pn -E=\'some_event\' some_cron_command')
     end
   end
 
@@ -169,7 +169,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn \'-E=some_event\' -e=false -i=2m -k -o=false -s -t=2m -n some_cron_command')
+        .with_command('pn -E=\'some_event\' -e=false -i=2m -k -o=false -s -t=2m -n some_cron_command')
     end
   end
 

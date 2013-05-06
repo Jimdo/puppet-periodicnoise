@@ -1,7 +1,7 @@
 <%
 option_string = ''
 
-option_string << " '-E=#{event}'" if @event
+option_string << " -E=\'#{event}'" if @event
 option_string << " -e=false" if @_disable_stderr_log
 option_string << " -i=#{max_execution_start_delay}" if @max_execution_start_delay
 option_string << " -k" if @_kill_running_instance
