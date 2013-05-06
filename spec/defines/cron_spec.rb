@@ -50,7 +50,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -E some_event some_cron_command')
+        .with_command('pn \'-E=some_event\' some_cron_command')
     end
   end
 
@@ -78,7 +78,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with maximum execution start delay set to 2 minutes" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -i 2m some_cron_command')
+        .with_command('pn -i=2m some_cron_command')
     end
   end
 
@@ -134,7 +134,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with execution timeout set to 2 minutes" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -t 2m some_cron_command')
+        .with_command('pn -t=2m some_cron_command')
     end
   end
 
@@ -169,7 +169,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -E some_event -e=false -i 2m -k -o=false -s -t 2m -n some_cron_command')
+        .with_command('pn \'-E=some_event\' -e=false -i=2m -k -o=false -s -t=2m -n some_cron_command')
     end
   end
 
