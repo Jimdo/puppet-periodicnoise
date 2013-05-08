@@ -50,7 +50,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -E=\'some_event\' some_cron_command')
+        .with_command('pn --monitor-event=\'some_event\' some_cron_command')
     end
   end
 
@@ -64,7 +64,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with stderr logging disabled" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -e=false some_cron_command')
+        .with_command('pn --no-stream-stderr some_cron_command')
     end
   end
 
@@ -78,7 +78,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with maximum execution start delay set to 2 minutes" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -i=2m some_cron_command')
+        .with_command('pn --max-start-delay=2m some_cron_command')
     end
   end
 
@@ -92,7 +92,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with kill already running instance enabled" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -k some_cron_command')
+        .with_command('pn --kill-running some_cron_command')
     end
   end
 
@@ -106,7 +106,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with disabled stdout logging" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -o=false some_cron_command')
+        .with_command('pn --no-stream-stdout some_cron_command')
     end
   end
 
@@ -120,7 +120,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with syslog logging enabled" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -s some_cron_command')
+        .with_command('pn --use-syslog some_cron_command')
     end
   end
 
@@ -134,7 +134,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with execution timeout set to 2 minutes" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -t=2m some_cron_command')
+        .with_command('pn --timeout=2m some_cron_command')
     end
   end
 
@@ -148,7 +148,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with execution timeout set to 2 minutes" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -n some_cron_command')
+        .with_command('pn --wrap-nagios-plugin some_cron_command')
     end
   end
 
@@ -169,7 +169,7 @@ describe 'periodicnoise::cron', :type => :define do
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn -E=\'some_event\' -e=false -i=2m -k -o=false -s -t=2m -n some_cron_command')
+        .with_command('pn --monitor-event=\'some_event\' --no-stream-stderr --max-start-delay=2m --kill-running --no-stream-stdout --use-syslog --timeout=2m --wrap-nagios-plugin some_cron_command')
     end
   end
 
