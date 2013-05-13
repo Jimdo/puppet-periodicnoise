@@ -1,11 +1,12 @@
 define periodicnoise::cron (
   $command,
-  $user,
   $minute,
   $hour,
+  $user = 'root',
   $weekday = '*',
   $monthday = '*',
   $month = '*',
+  $ensure = 'present',
   $event = undef,
   $disable_stderr_log = undef,
   $max_execution_start_delay = undef,
@@ -41,6 +42,7 @@ define periodicnoise::cron (
   }
 
   cron { $name:
+    ensure    => $ensure,
     command   => template('periodicnoise/cron.erb'),
     user      => $user,
     minute    => $minute,

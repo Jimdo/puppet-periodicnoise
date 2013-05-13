@@ -173,4 +173,19 @@ describe 'periodicnoise::cron', :type => :define do
     end
   end
 
+  context "absent" do
+    let (:params) {{
+      :ensure   => 'absent',
+      :command  => 'some_cron_command',
+      :minute   => 0,
+      :hour     => 0,
+    }}
+    it "should contain absent cronjob" do
+      should contain_cron('some_cronjob') \
+        .with_command('pn some_cron_command') \
+        .with_minute(0) \
+        .with_hour(0) \
+        .with_ensure('absent')
+    end
+  end
 end
