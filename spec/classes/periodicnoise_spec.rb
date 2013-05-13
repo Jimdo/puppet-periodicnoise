@@ -7,8 +7,8 @@ describe 'periodicnoise' do
     :send_to_host => 'monitor.example.com',
   }}
 
-  it 'should install the package periodicnoise in version 0.5 in order to provide the pn binary' do
-    should contain_package('periodicnoise').with_ensure('0.5')
+  it 'should install the package periodicnoise in order to provide the pn binary' do
+    should contain_package('periodicnoise').with_ensure('present')
   end
 
   it 'should configure periodicnoise globally for NSCA helpers in oder to see failures in nagios' do
