@@ -3,3 +3,4 @@
 
 # TODO: test module as soon as periodicnoise can be installed from a public
 # Debian repo
+#class { 'periodicnoise': }
