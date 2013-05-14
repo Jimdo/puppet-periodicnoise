@@ -1,5 +1,5 @@
 Testing
-=======
+-------
 
 This module comes with everything you need to develop infrastructure code with
 Puppet and feel confident about it. The provided testing facilities allow you to
@@ -8,7 +8,7 @@ iterate quickly on cookbook changes.
 After installing Vagrant and the required Ruby gems, most of the testing can be
 done through convenient Rake tasks.
 
-## Bundler
+### Bundler
 
 Apart from Vagrant, which is described later on, all tools you need for module
 development and testing are installed as Ruby gems using [Bundler]. This gives
@@ -23,27 +23,33 @@ Then let Bundler install the required gems (as defined in `Gemfile`):
 
     $ bundle install
 
+If you like to install the gems locally inside the module, do this instead:
+
+    $ bundle install --path vendor/gems
+
 Now you can use `bundle exec` to execute a command from the gemset, for example:
 
     $ bundle exec rake test
 
 (You should keep `Gemfile.lock` checked in.)
 
-## Rake
+### Rake
 
 The module provides a couple of helpful [Rake] tasks (specified in `Rakefile`):
 
     $ rake -T
-    rake build            # Build puppet module package
-    rake clean            # Clean a built module package
-    rake coverage         # Generate code coverage information
-    rake help             # Display the list of available rake tasks
-    rake lint             # Check puppet manifests with puppet-lint
-    rake spec             # Run spec tests in a clean fixtures directory
-    rake spec_clean       # Clean up the fixtures directory
-    rake spec_prep        # Create the fixtures directory
-    rake spec_standalone  # Run spec tests on an existing fixtures directory
-    rake test             # Run all tests
+    rake clean                      # Remove any temporary products.
+    rake clobber                    # Remove any generated file.
+    rake test:all                   # Run test:lint, test:spec, and test:integration
+    rake test:integration           # Run integration tests with Vagrant
+    rake test:integration_teardown  # Tear down VM used for integration tests
+    rake test:lint                  # Check manifests with puppet-lint
+    rake test:spec                  # Run RSpec examples
+    rake test:travis                # Run test:lint and test:spec
+    rake vagrant:destroy            # Destroy the VM
+    rake vagrant:halt               # Shutdown the VM
+    rake vagrant:provision          # Provision the VM using Puppet
+    rake vagrant:ssh                # SSH into the VM
 
 As mentioned above, use `bundle exec` to start a Rake task:
 
@@ -51,35 +57,35 @@ As mentioned above, use `bundle exec` to start a Rake task:
 
 All test-related tasks are described in more detail below.
 
-## puppet-lint
+### puppet-lint
 
-The Rake task `lint` will use [puppet-lint] to run lint checks on the module.
+The Rake task `test:lint` will use [puppet-lint] to run lint checks on the
+module.
 
-## puppet-rspec
+### puppet-rspec
 
-The Rake task `spec` will run all RSpec examples in the `spec` directory. The
-specs utilize [rspec-puppet].
+The Rake task `test:spec` will run all RSpec examples in the `spec` directory.
+The specs utilize [rspec-puppet].
 
-## Vagrant
+### Vagrant
 
 With [Vagrant], you can spin up a virtual machine and run your module inside it
-via Puppet Apply or Puppet Agent. The test setup requires to install **Vagrant
-1.2.x** from the [Vagrant downloads page].
+via Puppet Apply. The test setup requires to install **Vagrant 1.1.x** from the
+[Vagrant downloads page].
 
 When everything is in place, this command will boot and provision the VM as
-specified in the `Vagrantfile`:
+specified in the `Vagrantfile`, using the manifest `test/site.pp` as the entry
+point for integration testing:
 
-    $ vagrant up
-
-In case the VM is already up, you can run the provisioners again with:
-
-    $ vagrant provision
+    $ rake vagrant:provision
 
 Finally, if you no longer need the VM, you can destroy it:
 
-    $ vagrant destroy --force
+    $ rake vagrant:destroy
 
-## Travis CI
+See Rake section above for a complete list of all Vagrant-specific tasks.
+
+### Travis CI
 
 The module includes a configuration for [Travis CI] that will run `rake test`
 each time changes are pushed to GitHub. Simply enable Travis for your GitHub
