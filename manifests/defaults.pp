@@ -1,13 +1,11 @@
 class periodicnoise::defaults {
+  $cron_user     = 'root'
   $cron_hour     = '*'
   $cron_minute   = '*'
   $cron_weekday  = '*'
   $cron_monthday = '*'
   $cron_month    = '*'
-  $cron_user     = 'root'
 
-  $pn_max_execution_start_delay = '1m'
-  $pn_execution_timeout         = '12h'
   $pn_kill_running_instance     = false
   $pn_disable_stdout_log        = false
   $pn_disable_stderr_log        = false

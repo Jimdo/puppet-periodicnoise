@@ -1,6 +1,6 @@
 define periodicnoise::monitored_cron (
-  $command,
   $ensure                    = 'present',
+  $command,
   $user                      = undef,
   $hour                      = undef,
   $minute                    = undef,
@@ -8,7 +8,7 @@ define periodicnoise::monitored_cron (
   $monthday                  = undef,
   $month                     = undef,
   $max_execution_start_delay = undef,
-  $execution_timeout         = undef,
+  $execution_timeout,
   $notification_interval     = undef
 ) {
   $event = $name
@@ -16,18 +16,18 @@ define periodicnoise::monitored_cron (
   include periodicnoise::params
 
   periodicnoise::cron { $event :
-    command                   => $command,
     ensure                    => $ensure,
-    event                     => $event,
+    command                   => $command,
+    user                      => $user ? { undef => $periodicnoise::params::cron_user, default => $user },
     hour                      => $hour ? { undef => $periodicnoise::params::cron_hour, default => $hour },
     minute                    => $minute ? { undef => $periodicnoise::params::cron_minute, default => $minute },
     weekday                   => $weekday ? { undef => $periodicnoise::params::cron_weekday, default => $weekday },
     monthday                  => $monthday ? { undef => $periodicnoise::params::cron_monthday, default => $monthday },
     month                     => $month ? { undef => $periodicnoise::params::cron_month, default => $month },
-    user                      => $periodicnoise::params::cron_user,
     max_execution_start_delay => $max_execution_start_delay ? { undef => $periodicnoise::params::pn_max_execution_start_delay, default => $max_execution_start_delay },
-    execution_timeout         => $execution_timeout ? { undef => $periodicnoise::params::pn_execution_timeout, default => $execution_timeout },
-    use_syslog                => $periodicnoise::params::pn_use_syslog
+    execution_timeout         => $execution_timeout,
+    use_syslog                => $periodicnoise::params::pn_use_syslog,
+    event                     => $event
   }
 
   @@nagios_service { "$event on $periodicnoise::params::nagios_hostname":
