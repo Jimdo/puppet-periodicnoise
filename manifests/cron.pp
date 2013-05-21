@@ -25,12 +25,12 @@ define periodicnoise::cron (
   $_disable_stdout_log        = $disable_stdout_log ? { undef => $periodicnoise::params::pn_disable_stdout_log, default => $disable_stdout_log }
   $_disable_stderr_log        = $disable_stderr_log ? { undef => $periodicnoise::params::pn_disable_stderr_log, default => $disable_stderr_log }
   $_use_syslog                = $use_syslog ? { undef => $periodicnoise::params::pn_use_syslog, default => $use_syslog }
-  $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::defaults::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
+  $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
 
   cron { $name:
     ensure    => $ensure,
     command   => template('periodicnoise/cron.erb'),
-    user      => $user ? { undef => $periodicnoise::defaults::cron_user, default => $user },
+    user      => $user ? { undef => $periodicnoise::params::cron_user, default => $user },
     hour      => $hour ? { undef => $periodicnoise::params::cron_hour, default => $hour },
     minute    => $minute ? { undef => $periodicnoise::params::cron_minute, default => $minute },
     weekday   => $weekday ? { undef => $periodicnoise::params::cron_weekday, default => $weekday },
