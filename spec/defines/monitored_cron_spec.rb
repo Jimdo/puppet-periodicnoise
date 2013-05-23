@@ -54,4 +54,20 @@ describe 'periodicnoise::monitored_cron', :type => :define do
       should contain_periodicnoise__cron('some_monitored_cron')
     end
   end
+
+  context 'as Nagios plugin wrapper' do
+    let (:title) { 'check_foo' }
+    let (:params) {{
+      :command               => 'check_foo',
+      :hour                  => 0,
+      :minute                => 0,
+      :execution_timeout     => '6h',
+      :wrap_nagios_plugin    => true,
+    }}
+
+    it 'should create a periodicnoise cron job' do
+      should contain_periodicnoise__cron('check_foo') \
+        .with_wrap_nagios_plugin(true)
+    end
+  end
 end

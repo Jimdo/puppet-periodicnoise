@@ -9,7 +9,8 @@ define periodicnoise::monitored_cron (
   $month                     = undef,
   $max_execution_start_delay = undef,
   $execution_timeout,
-  $notification_interval     = undef
+  $notification_interval     = undef,
+  $wrap_nagios_plugin        = undef
 ) {
   $event = $name
 
@@ -27,7 +28,8 @@ define periodicnoise::monitored_cron (
     max_execution_start_delay => $max_execution_start_delay ? { undef => $periodicnoise::params::pn_max_execution_start_delay, default => $max_execution_start_delay },
     execution_timeout         => $execution_timeout,
     use_syslog                => $periodicnoise::params::pn_use_syslog,
-    event                     => $event
+    event                     => $event,
+    wrap_nagios_plugin        => $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin },
   }
 
   @@nagios_service { "$event on $periodicnoise::params::nagios_hostname":
