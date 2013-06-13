@@ -10,7 +10,8 @@ define periodicnoise::monitored_cron (
   $max_execution_start_delay = undef,
   $execution_timeout,
   $notification_interval     = undef,
-  $wrap_nagios_plugin        = undef
+  $wrap_nagios_plugin        = undef,
+  $nagios_notes_url          = undef
 ) {
   $event = $name
 
@@ -42,5 +43,6 @@ define periodicnoise::monitored_cron (
     contact_groups        => $periodicnoise::params::nagios_contact_groups,
     active_checks_enabled => 0,
     service_description   => $event,
+    notes_url             => $nagios_notes_url ? { undef => $periodicnoise::params::nagios_notes_url, default => $nagios_notes_url },
   }
 }
