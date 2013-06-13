@@ -70,4 +70,17 @@ describe 'periodicnoise::monitored_cron', :type => :define do
         .with_wrap_nagios_plugin(true)
     end
   end
+
+  context 'with a nagios notes_url set' do
+    let (:params) {{
+      :command           => 'some_cron_command',
+      :hour              => 0,
+      :minute            => 0,
+      :execution_timeout => '10m',
+      :nagios_notes_url  => 'http://www.example.com'
+    }}
+    it 'should create a periodicnoise cron job' do
+      should contain_periodicnoise__cron('some_monitored_cron')
+    end
+  end
 end
