@@ -19,8 +19,10 @@ class periodicnoise::params (
   $nagios_check_command         = $periodicnoise::defaults::nagios_check_command,
   $nagios_check_interval        = undef,
   $nagios_notification_interval = $periodicnoise::defaults::nagios_notification_interval,
-  $nagios_max_check_attempts    = $periodicnoise::defaults::magios_max_check_attempts,
+  $nagios_max_check_attempts    = $periodicnoise::defaults::nagios_max_check_attempts,
   $nagios_contact_groups        = undef,
-  $nagios_notes_url             = undef
+  $nagios_notes_url             = undef,
+  $nagios_freshness_threshold   = undef,
+  $nagios_check_freshness       = undef
 ) inherits periodicnoise::defaults {
 }
