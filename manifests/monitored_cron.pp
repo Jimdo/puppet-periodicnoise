@@ -1,17 +1,19 @@
 define periodicnoise::monitored_cron (
-  $ensure                    = 'present',
+  $ensure                       = 'present',
   $command,
-  $user                      = undef,
-  $hour                      = undef,
-  $minute                    = undef,
-  $weekday                   = undef,
-  $monthday                  = undef,
-  $month                     = undef,
-  $max_execution_start_delay = undef,
+  $user                         = undef,
+  $hour                         = undef,
+  $minute                       = undef,
+  $weekday                      = undef,
+  $monthday                     = undef,
+  $month                        = undef,
+  $max_execution_start_delay    = undef,
   $execution_timeout,
-  $notification_interval     = undef,
-  $wrap_nagios_plugin        = undef,
-  $nagios_notes_url          = undef
+  $notification_interval        = undef,
+  $wrap_nagios_plugin           = undef,
+  $nagios_notes_url             = undef,
+  $nagios_freshness_threshold   = undef,
+  $nagios_check_freshness       = undef
 ) {
   $event = $name
 
@@ -34,15 +36,17 @@ define periodicnoise::monitored_cron (
   }
 
   @@nagios_service { "$event on $periodicnoise::params::nagios_hostname":
-    host_name             => $periodicnoise::params::nagios_hostname,
-    use                   => $periodicnoise::params::nagios_template,
-    check_command         => $periodicnoise::params::nagios_check_command,
-    check_interval        => $periodicnoise::params::nagios_check_interval,
-    notification_interval => $notification_interval ? { undef => $periodicnoise::params::notification_interval, default => $notification_interval },
-    max_check_attempts    => $periodicnoise::params::nagios_max_check_attempts,
-    contact_groups        => $periodicnoise::params::nagios_contact_groups,
-    active_checks_enabled => 0,
-    service_description   => $event,
-    notes_url             => $nagios_notes_url ? { undef => $periodicnoise::params::nagios_notes_url, default => $nagios_notes_url },
+    host_name                   => $periodicnoise::params::nagios_hostname,
+    use                         => $periodicnoise::params::nagios_template,
+    check_command               => $periodicnoise::params::nagios_check_command,
+    check_interval              => $periodicnoise::params::nagios_check_interval,
+    notification_interval       => $notification_interval ? { undef => $periodicnoise::params::notification_interval, default => $notification_interval },
+    max_check_attempts          => $periodicnoise::params::nagios_max_check_attempts,
+    contact_groups              => $periodicnoise::params::nagios_contact_groups,
+    active_checks_enabled       => 0,
+    service_description         => $event,
+    notes_url                   => $nagios_notes_url ? { undef => $periodicnoise::params::nagios_notes_url, default => $nagios_notes_url },
+    check_freshness             => $nagios_check_freshness ? { undef => $periodicnoise::params::nagios_check_freshness, default => $nagios_check_freshness },
+    freshness_threshold         => $nagios_freshness_threshold ? { undef => $periodicnoise::params::nagios_freshness_threshold, default => $nagios_freshness_threshold },
   }
 }
