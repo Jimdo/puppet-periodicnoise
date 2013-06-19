@@ -14,7 +14,7 @@ class periodicnoise::defaults {
 
   $nagios_hostname              = $::fqdn
   $nagios_template              = 'generic-service'
-  $nagios_check_command         = 'check-dummyhost-alive'
+  $nagios_check_command         = "check_dummy!2!CRITICAL: received no results since ${nagios_freshness_threshold} minutes"
   $nagios_notification_interval = 24 * 60
   $nagios_max_check_attempts    = 1
 }
