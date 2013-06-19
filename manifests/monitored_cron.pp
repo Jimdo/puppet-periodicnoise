@@ -47,6 +47,6 @@ define periodicnoise::monitored_cron (
     service_description         => $event,
     notes_url                   => $nagios_notes_url ? { undef => $periodicnoise::params::nagios_notes_url, default => $nagios_notes_url },
     check_freshness             => $nagios_check_freshness ? { undef => $periodicnoise::params::nagios_check_freshness, default => $nagios_check_freshness },
-    nagios_freshness_threshold  => $nagios_freshness_threshold ? { undef => $periodicnoise::params::nagios_freshness_threshold, default => $nagios_freshness_threshold },
+    freshness_threshold         => $nagios_freshness_threshold ? { undef => $periodicnoise::params::nagios_freshness_threshold, default => $nagios_freshness_threshold },
   }
 }
