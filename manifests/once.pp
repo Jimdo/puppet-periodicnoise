@@ -1,14 +1,15 @@
-define periodicnoise::cron (
-  $ensure                    = 'present',
+define periodicnoise::once (
   $command,
-  $user                      = undef,
-  $hour                      = undef,
-  $minute                    = undef,
-  $weekday                   = undef,
-  $monthday                  = undef,
-  $month                     = undef,
-  $max_execution_start_delay = undef,
   $execution_timeout,
+  $user                      = undef,
+  $creates                   = undef,
+  $onlyif                    = undef,
+  $refresh                   = undef,
+  $refreshonly               = undef,
+  $tries                     = undef,
+  $try_sleep                 = undef,
+  $unless                    = undef,
+  $max_execution_start_delay = undef,
   $kill_running_instance     = undef,
   $disable_stdout_log        = undef,
   $disable_stderr_log        = undef,
@@ -27,15 +28,9 @@ define periodicnoise::cron (
   $_use_syslog                = $use_syslog ? { undef => $periodicnoise::params::pn_use_syslog, default => $use_syslog }
   $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
 
-  cron { $name:
-    ensure    => $ensure,
+  exec { $name:
     command   => template('periodicnoise/command.erb'),
     user      => $user ? { undef => $periodicnoise::params::cron_user, default => $user },
-    hour      => $hour ? { undef => $periodicnoise::params::cron_hour, default => $hour },
-    minute    => $minute ? { undef => $periodicnoise::params::cron_minute, default => $minute },
-    weekday   => $weekday ? { undef => $periodicnoise::params::cron_weekday, default => $weekday },
-    monthday  => $monthday ? { undef => $periodicnoise::params::cron_monthday, default => $monthday },
-    month     => $month ? { undef => $periodicnoise::params::cron_month, default => $month },
     require   => Package['periodicnoise']
   }
 }
