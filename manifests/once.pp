@@ -19,7 +19,7 @@ define periodicnoise::once (
 ) {
   include periodicnoise::params
 
-  # Variables used in cron.erb
+  # Variables used in command.erb
   $_max_execution_start_delay = $max_execution_start_delay ? { undef => $periodicnoise::params::pn_max_execution_start_delay, default => $max_execution_start_delay }
   $_execution_timeout         = $execution_timeout
   $_kill_running_instance     = $kill_running_instance ? { undef => $periodicnoise::params::pn_kill_running_instance, default => $kill_running_instance }
@@ -29,7 +29,7 @@ define periodicnoise::once (
   $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
 
   exec { $name:
-    command   => template('periodicnoise/cron.erb'),
+    command   => template('periodicnoise/command.erb'),
     user      => $user ? { undef => $periodicnoise::params::cron_user, default => $user },
     require   => Package['periodicnoise']
   }

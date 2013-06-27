@@ -18,7 +18,7 @@ define periodicnoise::cron (
 ) {
   include periodicnoise::params
 
-  # Variables used in cron.erb
+  # Variables used in command.erb
   $_max_execution_start_delay = $max_execution_start_delay ? { undef => $periodicnoise::params::pn_max_execution_start_delay, default => $max_execution_start_delay }
   $_execution_timeout         = $execution_timeout
   $_kill_running_instance     = $kill_running_instance ? { undef => $periodicnoise::params::pn_kill_running_instance, default => $kill_running_instance }
@@ -29,7 +29,7 @@ define periodicnoise::cron (
 
   cron { $name:
     ensure    => $ensure,
-    command   => template('periodicnoise/cron.erb'),
+    command   => template('periodicnoise/command.erb'),
     user      => $user ? { undef => $periodicnoise::params::cron_user, default => $user },
     hour      => $hour ? { undef => $periodicnoise::params::cron_hour, default => $hour },
     minute    => $minute ? { undef => $periodicnoise::params::cron_minute, default => $minute },
