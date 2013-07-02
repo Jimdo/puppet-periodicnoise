@@ -13,7 +13,8 @@ define periodicnoise::monitored_cron (
   $wrap_nagios_plugin           = undef,
   $nagios_notes_url             = undef,
   $nagios_freshness_threshold   = undef,
-  $nagios_check_freshness       = undef
+  $nagios_check_freshness       = undef,
+  $nagios_check_command         = undef,
 ) {
   $event = $name
 
@@ -38,7 +39,10 @@ define periodicnoise::monitored_cron (
   @@nagios_service { "$event on $periodicnoise::params::nagios_hostname":
     host_name                   => $periodicnoise::params::nagios_hostname,
     use                         => $periodicnoise::params::nagios_template,
-    check_command               => $periodicnoise::params::nagios_check_command,
+    check_command               => $nagios_check_command ? {
+      undef   => $periodicnoise::params::nagios_check_command,
+      default => $nagios_check_command
+    },
     check_interval              => $periodicnoise::params::nagios_check_interval,
     notification_interval       => $notification_interval ? { undef => $periodicnoise::params::notification_interval, default => $notification_interval },
     max_check_attempts          => $periodicnoise::params::nagios_max_check_attempts,
