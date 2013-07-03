@@ -83,4 +83,21 @@ describe 'periodicnoise::monitored_cron', :type => :define do
       should contain_periodicnoise__cron('some_monitored_cron')
     end
   end
+
+  context 'with a custom nagios check command' do
+    let (:params) {{
+      :command           => 'some_cron_command',
+      :hour              => 0,
+      :minute            => 0,
+      :execution_timeout => '10m',
+
+      # 2 is a nagios magic number exit code for CRITICAL
+      :nagios_check_command => 'check_dummy!2!received no check results for a long time, please investigate'
+    }}
+    it 'should create a periodicnoise cron job which raises a CRITICAL status in nagios' do
+      should contain_periodicnoise__cron('some_monitored_cron')
+      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
+      # actually can't test anything here
+    end
+  end
 end
