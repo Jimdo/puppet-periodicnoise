@@ -100,4 +100,21 @@ describe 'periodicnoise::monitored_cron', :type => :define do
       # actually can't test anything here
     end
   end
+  context 'with custom nagios_max_check_attempts set' do
+    let (:params) {{
+      :command                    => 'some_cron_command',
+      :hour                       => 0,
+      :minute                     => 0,
+      :nagios_max_check_attempts  => '3',
+      :execution_timeout          => '6h'
+    }}
+
+    it 'should create a periodicnoise cron job' do
+      should contain_periodicnoise__cron('some_monitored_cron')
+      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
+      # actually can't test anything here
+    end
+  end
+
+
 end
