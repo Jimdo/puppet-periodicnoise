@@ -111,6 +111,8 @@ describe 'periodicnoise::monitored_cron', :type => :define do
 
     it 'should create a periodicnoise cron job' do
       should contain_periodicnoise__cron('some_monitored_cron')
+      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
+      # actually can't test anything here
     end
   end
 
