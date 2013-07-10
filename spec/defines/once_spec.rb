@@ -138,4 +138,31 @@ describe 'periodicnoise::once', :type => :define do
     end
   end
 
+  context "with all exec specific parameters enabled" do
+    let (:params) {{
+      :command           => 'some_once_command',
+      :user              => 'root',
+      :execution_timeout => '10m',
+      :creates           => '/some/file',
+      :onlyif            => true,
+      :refresh           => true,
+      :refreshonly       => true,
+      :tries             => 1,
+      :try_sleep         => 0,
+      :unless            => true,
+    }}
+    it "should create a oncejob" do
+      should contain_exec('some_oncejob') \
+        .with_command('pn --timeout=10m --use-syslog -- some_once_command') \
+        .with_user('root') \
+        .with_creates('/some/file') \
+        .with_onlyif(true) \
+        .with_refresh(true) \
+        .with_refreshonly(true) \
+        .with_tries(1) \
+        .with_try_sleep(0) \
+        .with_unless(true) \
+        .with_require('Package[periodicnoise]')
+    end
+  end
 end
