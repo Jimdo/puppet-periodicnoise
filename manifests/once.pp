@@ -29,8 +29,15 @@ define periodicnoise::once (
   $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
 
   exec { $name:
-    command   => template('periodicnoise/command.erb'),
-    user      => $user ? { undef => $periodicnoise::params::cron_user, default => $user },
-    require   => Package['periodicnoise']
+    command     => template('periodicnoise/command.erb'),
+    user        => $user ? { undef                        => $periodicnoise::params::cron_user, default => $user },
+    creates     => $creates,
+    onlyif      => $onlyif,
+    refresh     => $refresh,
+    refreshonly => $refreshonly,
+    tries       => $tries,
+    try_sleep   => $try_sleep,
+    unless      => $unless,
+    require     => Package['periodicnoise']
   }
 }
