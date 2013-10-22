@@ -15,7 +15,8 @@ define periodicnoise::monitored_cron (
   $nagios_freshness_threshold   = undef,
   $nagios_check_freshness       = undef,
   $nagios_check_command         = undef,
-  $nagios_max_check_attempts    = undef
+  $nagios_max_check_attempts    = undef,
+  $nagios_contact_groups        = undef
 ) {
   $event = $name
 
@@ -45,7 +46,7 @@ define periodicnoise::monitored_cron (
       check_interval              => $periodicnoise::params::nagios_check_interval,
       notification_interval       => $notification_interval ? { undef => $periodicnoise::params::notification_interval, default => $notification_interval },
       max_check_attempts          => $nagios_max_check_attempts ? { undef => $periodicnoise::params::nagios_max_check_attempts, default => $nagios_max_check_attempts },
-      contact_groups              => $periodicnoise::params::nagios_contact_groups,
+      contact_groups              => $nagios_contact_groups ? { undef => $periodicnoise::params::nagios_contact_groups, default => $nagios_contact_groups },
       active_checks_enabled       => 0,
       service_description         => $event,
       notes_url                   => $nagios_notes_url ? { undef => $periodicnoise::params::nagios_notes_url, default => $nagios_notes_url },
