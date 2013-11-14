@@ -115,6 +115,19 @@ describe 'periodicnoise::monitored_cron', :type => :define do
       # actually can't test anything here
     end
   end
+  context 'with nagios_servicegroups set' do
+    let (:params) {{
+      :command                    => 'some_cron_command',
+      :hour                       => 0,
+      :minute                     => 0,
+      :nagios_servicegroups       => 'awesome_services',
+      :execution_timeout          => '6h'
+    }}
 
-
+    it 'should create a periodicnoise cron job with servicegroups set' do
+      should contain_periodicnoise__cron('some_monitored_cron')
+      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
+      # actually can't test anything here
+    end
+  end
 end
