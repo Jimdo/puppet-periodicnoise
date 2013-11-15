@@ -23,6 +23,7 @@ class periodicnoise::params (
   $nagios_contact_groups        = undef,
   $nagios_notes_url             = undef,
   $nagios_freshness_threshold   = undef,
-  $nagios_check_freshness       = undef
+  $nagios_check_freshness       = undef,
+  $nagios_servicegroups         = undef,
 ) inherits periodicnoise::defaults {
 }
