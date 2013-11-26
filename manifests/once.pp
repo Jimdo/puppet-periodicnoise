@@ -15,7 +15,12 @@ define periodicnoise::once (
   $disable_stderr_log        = undef,
   $use_syslog                = undef,
   $wrap_nagios_plugin        = undef,
-  $event                     = undef
+  $event                     = undef,
+  $grace_time                = undef,
+  $monitor_ok                = [],
+  $monitor_warning           = [],
+  $monitor_critical          = [],
+  $monitor_unknown           = [],
 ) {
   include periodicnoise::params
 

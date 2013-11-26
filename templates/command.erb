@@ -3,10 +3,23 @@ option_string = ""
 option_string << " --monitor-event=\'#{@event}'" if @event
 option_string << " --max-start-delay=#{@_max_execution_start_delay}" if @_max_execution_start_delay
 option_string << " --timeout=#{@_execution_timeout}" if @_execution_timeout
+option_string << " --grace-time=#{@grace_time}" if @grace_time
 option_string << " --kill-running" if @_kill_running_instance == true
 option_string << " --no-stream-stdout" if @_disable_stdout_log == true
 option_string << " --no-stream-stderr" if @_disable_stderr_log == true
 option_string << " --use-syslog" if @_use_syslog == true
 option_string << " --wrap-nagios-plugin" if @_wrap_nagios_plugin == true
+@monitor_ok.each do |code|
+  option_string << " --monitor-ok=#{code}"
+end
+@monitor_critical.each do |code|
+  option_string << " --monitor-critical=#{code}"
+end
+@monitor_warning.each do |code|
+  option_string << " --monitor-warning=#{code}"
+end
+@monitor_unknown.each do |code|
+  option_string << " --monitor-unknown=#{code}"
+end
 -%>
 pn<%= option_string -%> -- <%= @command -%>
