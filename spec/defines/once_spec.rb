@@ -126,12 +126,11 @@ describe 'periodicnoise::once', :type => :define do
       :user               => 'root',
       :execution_timeout  => '10m',
       :monitor_ok         => [2],
-      :monitor_warning    => [4,6],
-      :monitor_critical   => [1],
+      :monitor_critical   => [1, 4 ,6],
     }}
     it "should create a oncejob with execution timeout set to 10m suitable for wrapping puppet in --detailed-exit-codes mode" do
       should contain_exec('some_oncejob') \
-        .with_command('pn --monitor-event=\'some_event\' --timeout=10m --use-syslog --monitor-ok=2 --monitor-critical=1 --monitor-warning=4 --monitor-warning=6 -- puppet agent --test --detailed-exit-codes')
+        .with_command('pn --monitor-event=\'some_event\' --timeout=10m --use-syslog --monitor-ok=2 --monitor-critical=1 --monitor-critical=4 --monitor-critical=6 -- puppet agent --test --detailed-exit-codes')
     end
   end
 
