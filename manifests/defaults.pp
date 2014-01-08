@@ -14,7 +14,4 @@ class periodicnoise::defaults {
 
   $nagios_hostname              = $::fqdn
   $nagios_template              = 'generic-service'
-  $nagios_check_command         = "check_dummy!3!received no check results for a long time, please investigate"
-  $nagios_notification_interval = 24 * 60
-  $nagios_max_check_attempts    = 1
 }

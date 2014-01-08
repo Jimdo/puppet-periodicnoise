@@ -13,16 +13,12 @@ define periodicnoise::monitored_cron (
   $wrap_nagios_plugin           = undef,
   $nagios_notes_url             = undef,
   $nagios_freshness_threshold   = undef,
-  $nagios_check_freshness       = undef,
-  $nagios_check_command         = undef,
-  $nagios_max_check_attempts    = undef,
-  $nagios_contact_groups        = undef,
-  $nagios_servicegroups         = undef,
   $grace_time                   = undef,
   $monitor_ok                   = [],
   $monitor_warning              = [],
   $monitor_critical             = [],
   $monitor_unknown              = [],
+  $nagios_template              = undef,
 ) {
   $event = $name
 
@@ -51,19 +47,13 @@ define periodicnoise::monitored_cron (
 
   if ($ensure == 'present') {
     @@nagios_service { "$event on $periodicnoise::params::nagios_hostname":
-      host_name                   => $periodicnoise::params::nagios_hostname,
-      use                         => $periodicnoise::params::nagios_template,
-      check_command               => $nagios_check_command ? { undef   => $periodicnoise::params::nagios_check_command, default => $nagios_check_command },
-      check_interval              => $periodicnoise::params::nagios_check_interval,
-      notification_interval       => $notification_interval ? { undef => $periodicnoise::params::notification_interval, default => $notification_interval },
-      max_check_attempts          => $nagios_max_check_attempts ? { undef => $periodicnoise::params::nagios_max_check_attempts, default => $nagios_max_check_attempts },
-      contact_groups              => $nagios_contact_groups ? { undef => $periodicnoise::params::nagios_contact_groups, default => $nagios_contact_groups },
-      active_checks_enabled       => 0,
-      service_description         => $event,
-      notes_url                   => $nagios_notes_url ? { undef => $periodicnoise::params::nagios_notes_url, default => $nagios_notes_url },
-      check_freshness             => $nagios_check_freshness ? { undef => $periodicnoise::params::nagios_check_freshness, default => $nagios_check_freshness },
-      freshness_threshold         => $nagios_freshness_threshold ? { undef => $periodicnoise::params::nagios_freshness_threshold, default => $nagios_freshness_threshold },
-      servicegroups               => $nagios_servicegroups ? { undef => $periodicnoise::params::nagios_servicegroups, default => $nagios_servicegroups },
+      host_name             => $periodicnoise::params::nagios_hostname,
+      use                   => $nagios_template ? {  undef => $periodicnoise::params::nagios_template, default => $nagios_template },
+      notification_interval => $notification_interval,
+      active_checks_enabled => $periodicnoise::params::nagios_active_checks_enabled,
+      service_description   => $event,
+      notes_url             => $nagios_notes_url,
+      freshness_threshold   => $nagios_freshness_threshold,
     }
   }
 }
