@@ -18,6 +18,11 @@ define periodicnoise::monitored_cron (
   $nagios_max_check_attempts    = undef,
   $nagios_contact_groups        = undef,
   $nagios_servicegroups         = undef,
+  $grace_time                   = undef,
+  $monitor_ok                   = [],
+  $monitor_warning              = [],
+  $monitor_critical             = [],
+  $monitor_unknown              = [],
 ) {
   $event = $name
 
@@ -37,6 +42,11 @@ define periodicnoise::monitored_cron (
     use_syslog                => $periodicnoise::params::pn_use_syslog,
     event                     => $event,
     wrap_nagios_plugin        => $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin },
+    grace_time                => $grace_time,
+    monitor_ok                => $monitor_ok,
+    monitor_warning           => $monitor_warning,
+    monitor_critical          => $monitor_critical,
+    monitor_unknown           => $monitor_unknown,
   }
 
   if ($ensure == 'present') {

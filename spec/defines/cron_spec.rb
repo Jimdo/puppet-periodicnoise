@@ -161,6 +161,22 @@ describe 'periodicnoise::cron', :type => :define do
     end
   end
 
+  context "with exit codes remapped like puppet --detailed-exit-codes need it" do
+    let (:params) {{
+      :command            => 'puppet agent --test --detailed-exit-codes',
+      :user               => 'root',
+      :minute             => 0,
+      :hour               => 0,
+      :execution_timeout  => '10m',
+      :monitor_ok         => [2],
+      :monitor_critical   => [1, 4, 6],
+    }}
+    it "should create a cronjob with execution timeout set to 10m suitable for wrapping puppet in --detailed-exit-codes mode" do
+      should contain_cron('some_cronjob') \
+        .with_command('pn --timeout=10m --use-syslog --monitor-ok=2 --monitor-critical=1 --monitor-critical=4 --monitor-critical=6 -- puppet agent --test --detailed-exit-codes')
+    end
+  end
+
   context "with all params enabled" do
     let (:params) {{
       :command                    => 'some_cron_command',
