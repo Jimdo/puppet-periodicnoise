@@ -84,50 +84,16 @@ describe 'periodicnoise::monitored_cron', :type => :define do
     end
   end
 
-  context 'with a custom nagios check command' do
+  context 'with a nagios template set' do
     let (:params) {{
       :command           => 'some_cron_command',
       :hour              => 0,
       :minute            => 0,
       :execution_timeout => '10m',
-
-      # 2 is a nagios magic number exit code for CRITICAL
-      :nagios_check_command => 'check_dummy!2!received no check results for a long time, please investigate'
+      :nagios_template   => 'awesome-service',
     }}
-    it 'should create a periodicnoise cron job which raises a CRITICAL status in nagios' do
-      should contain_periodicnoise__cron('some_monitored_cron')
-      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
-      # actually can't test anything here
-    end
-  end
-  context 'with custom nagios_max_check_attempts set' do
-    let (:params) {{
-      :command                    => 'some_cron_command',
-      :hour                       => 0,
-      :minute                     => 0,
-      :nagios_max_check_attempts  => '3',
-      :execution_timeout          => '6h'
-    }}
-
     it 'should create a periodicnoise cron job' do
       should contain_periodicnoise__cron('some_monitored_cron')
-      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
-      # actually can't test anything here
-    end
-  end
-  context 'with nagios_servicegroups set' do
-    let (:params) {{
-      :command                    => 'some_cron_command',
-      :hour                       => 0,
-      :minute                     => 0,
-      :nagios_servicegroups       => 'awesome_services',
-      :execution_timeout          => '6h'
-    }}
-
-    it 'should create a periodicnoise cron job with servicegroups set' do
-      should contain_periodicnoise__cron('some_monitored_cron')
-      # XXX cannot test exported resources (@@nagios_service) with rspec-puppet so we
-      # actually can't test anything here
     end
   end
 end
