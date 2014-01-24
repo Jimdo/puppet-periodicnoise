@@ -22,4 +22,5 @@ end
   option_string << " --monitor-unknown=#{code}"
 end
 -%>
+<%= @_pre_command -%>
 pn<%= option_string -%> -- <%= @command -%>
