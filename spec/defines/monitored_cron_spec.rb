@@ -96,4 +96,19 @@ describe 'periodicnoise::monitored_cron', :type => :define do
       should contain_periodicnoise__cron('some_monitored_cron')
     end
   end
+
+  context 'with pre_command set' do
+    let (:params) {{
+      :command           => 'some_cron_command',
+      :execution_timeout => '10m',
+      :pre_command       => '/some/command --test',
+    }}
+
+    it 'should create a periodicnoise cron job' do
+      should contain_periodicnoise__cron('some_monitored_cron') \
+        .with_command('some_cron_command') \
+        .with_pre_command('/some/command --test')
+    end
+  end
+
 end

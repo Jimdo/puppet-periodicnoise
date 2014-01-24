@@ -19,6 +19,7 @@ define periodicnoise::monitored_cron (
   $monitor_critical             = [],
   $monitor_unknown              = [],
   $nagios_template              = undef,
+  $pre_command                  = undef,
 ) {
   $event = $name
 
@@ -43,6 +44,7 @@ define periodicnoise::monitored_cron (
     monitor_warning           => $monitor_warning,
     monitor_critical          => $monitor_critical,
     monitor_unknown           => $monitor_unknown,
+    pre_command               => $pre_command,
   }
 
   if ($ensure == 'present') {
