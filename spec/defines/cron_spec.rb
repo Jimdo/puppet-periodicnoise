@@ -214,4 +214,17 @@ describe 'periodicnoise::cron', :type => :define do
         .with_ensure('absent')
     end
   end
+
+  context "with a pre-command set" do
+    let (:params) {{
+      :command            => 'some_cron_command',
+      :execution_timeout  => '2m',
+      :pre_command        => '/run/me --before'
+    }}
+    it "should create a cronjob with event set" do
+      should contain_cron('some_cronjob') \
+        .with_command('/run/me --before pn --timeout=2m --use-syslog -- some_cron_command')
+    end
+
+  end
 end

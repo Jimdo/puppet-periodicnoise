@@ -20,6 +20,7 @@ define periodicnoise::cron (
   $monitor_warning           = [],
   $monitor_critical          = [],
   $monitor_unknown           = [],
+  $pre_command               = undef,
 ) {
   include periodicnoise::params
 
@@ -31,6 +32,7 @@ define periodicnoise::cron (
   $_disable_stderr_log        = $disable_stderr_log ? { undef => $periodicnoise::params::pn_disable_stderr_log, default => $disable_stderr_log }
   $_use_syslog                = $use_syslog ? { undef => $periodicnoise::params::pn_use_syslog, default => $use_syslog }
   $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
+  $_pre_command               = $pre_command ? { undef => undef, default => "${pre_command} " }
 
   cron { $name:
     ensure    => $ensure,
