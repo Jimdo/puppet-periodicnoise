@@ -25,6 +25,14 @@ define periodicnoise::monitored_cron (
 
   include periodicnoise::params
 
+  if ($nagios_freshness_threshold != undef) and ($nagios_freshness_threshold !~ /^(((\d+)([a-z]+))+|0)$/) {
+    warning("nagios_freshness_threshold should have a unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds")
+  }
+
+  if ($notification_interval != undef) and ($notification_interval !~ /^(((\d+)([a-z]+))+|0)$/) {
+    warning("notification_interval should have a unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds")
+  }
+
   periodicnoise::cron { $event :
     ensure                    => $ensure,
     command                   => $command,
@@ -48,14 +56,37 @@ define periodicnoise::monitored_cron (
   }
 
   if ($ensure == 'present') {
+    case $notification_interval {
+      undef : {
+        $_notification_interval = undef
+      }
+      /^[1-9][0-9]*$/ : {
+        $_notification_interval = $notification_interval
+      }
+      default : {
+        $_notification_interval = duration($notification_interval) / (1000 * 1000 * 1000) # /
+      }
+    }
+    case $nagios_freshness_threshold {
+      undef : {
+        $_nagios_freshness_threshold = undef
+      }
+      /^[1-9][0-9]*$/ : {
+        $_nagios_freshness_threshold = $nagios_freshness_threshold
+      }
+      default : {
+        $_nagios_freshness_threshold = duration($nagios_freshness_threshold) / (1000 * 1000 * 1000) # /
+      }
+    }
+
     @@nagios_service { "$event on $periodicnoise::params::nagios_hostname":
       host_name             => $periodicnoise::params::nagios_hostname,
       use                   => $nagios_template ? {  undef => $periodicnoise::params::nagios_template, default => $nagios_template },
-      notification_interval => $notification_interval,
+      notification_interval => $_notification_interval,
       active_checks_enabled => $periodicnoise::params::nagios_active_checks_enabled,
       service_description   => $event,
       notes_url             => $nagios_notes_url,
-      freshness_threshold   => $nagios_freshness_threshold,
+      freshness_threshold   => $_nagios_freshness_threshold,
     }
   }
 }
