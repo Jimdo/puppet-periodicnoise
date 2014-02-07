@@ -24,6 +24,16 @@ define periodicnoise::cron (
 ) {
   include periodicnoise::params
 
+  if ($max_execution_start_delay != undef) and ("$max_execution_start_delay" =~ /^[0-9]+$/) {
+    fail("max_execution_start_delay is missing unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds")
+  }
+  if ($grace_time != undef) and ("$grace_time" =~ /^[0-9]+$/) {
+    fail("grace_time is missing unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds")
+  }
+  if ($execution_timeout != undef) and ("$execution_timeout" =~ /^[0-9]+$/) {
+    fail("execution_timeout is missing unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds")
+  }
+
   # Variables used in command.erb
   $_max_execution_start_delay = $max_execution_start_delay ? { undef => $periodicnoise::params::pn_max_execution_start_delay, default => $max_execution_start_delay }
   $_execution_timeout         = $execution_timeout
