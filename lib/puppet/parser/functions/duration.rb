@@ -1,8 +1,8 @@
 module Puppet::Parser::Functions
   newfunction(:duration, :type => :rvalue, :doc => <<-'EOS'
     Returns a time duration in nanoseconds from a non-ambigious time specification
-    like 1d2h3m4s for 1 day, 2 hours, 3 minutes and 4 seconds.
-    Valid time units are "ns", "us", "ms", "s", "m", "h", "d".
+    like 2h3m4s for 2 hours, 3 minutes and 4 seconds.
+    Valid time units are "ns", "us", "ms", "s", "m", "h".
     EOS
  ) do |args|
 
@@ -17,11 +17,10 @@ module Puppet::Parser::Functions
       "s" => 1 * 1000 * 1000 * 1000,
       "m" => (60) * 1000 * 1000 * 1000,
       "h" => (60 * 60) * 1000 * 1000 * 1000,
-      "d" => (60 * 60 * 24) * 1000 * 1000 * 1000,
     }
 
     if /^(((\d+)([a-z]+))+|0)$/ !~ input
-      raise Puppet::ParseError, ("duration(): no units specified (#{input}; should be in the form 1d2h3m4s for 1 day, 2 hours, 3 minutes and 4 seconds)")
+      raise Puppet::ParseError, ("duration(): no units specified (#{input}; should be in the form 2h3m4s for 2 hours, 3 minutes and 4 seconds)")
     end
 
     nanoseconds = 0
