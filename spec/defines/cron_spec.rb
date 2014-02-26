@@ -227,4 +227,55 @@ describe 'periodicnoise::cron', :type => :define do
     end
 
   end
+
+  input_error_handling_cases = [
+    {
+      :params => {
+        :command => "some_command",
+      },
+      :expected_error_pattern => /Must pass execution_timeout/,
+    },
+    {
+      :params => {
+        :execution_timeout => '1s',
+      },
+      :expected_error_pattern => /Must pass command/,
+    },
+    {
+      :params => {
+        :command => 'some_command',
+        :execution_timeout => '2',
+      },
+      :expected_error_pattern => /execution_timeout is missing unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds/,
+    },
+    {
+      :params => {
+        :command => 'some_command',
+        :execution_timeout => '1s',
+        :max_execution_start_delay  => '2',
+      },
+      :expected_error_pattern => /max_execution_start_delay is missing unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds/,
+    },
+    {
+      :params => {
+        :command => 'some_command',
+        :execution_timeout => '1s',
+        :grace_time => '3',
+      },
+      :expected_error_pattern => /grace_time is missing unit of measure like 3h4m5s for 3 hours, 4 minutes and 5 seconds/,
+    },
+  ]
+
+  input_error_handling_cases.each do |error_case|
+
+    context "with handling of error #{error_case[:expected_error_pattern].to_s}" do
+
+      let (:params) { error_case[:params] }
+
+      it do
+        expect { catalogue }.to raise_error(Puppet::Error, error_case[:expected_error_pattern])
+      end
+    end
+  end
+
 end
