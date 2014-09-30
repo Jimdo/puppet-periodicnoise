@@ -3,7 +3,7 @@
 #
 # Written by Mathias Lafeldt <mathias.lafeldt@gmail.com>
 #
-# Copyright (C) 2013 Jimdo GmbH
+# Copyright (C) 2013-2014 Jimdo GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,6 +33,24 @@ MANIFESTS_PATH = File.join(FIXTURES_PATH, 'manifests')
 MANIFEST_NAME  = 'site.pp'
 
 CLOBBER.include FIXTURES_PATH, '.librarian', '.tmp', '.vagrant'
+
+desc 'Display information about the environment'
+task :env do
+  {
+    :ruby       => 'ruby --version',
+    :rubygems   => 'gem --version',
+    :bundler    => 'bundle --version',
+    :vagrant    => 'vagrant --version',
+    :virtualbox => 'VBoxManage --version'
+  }.each do |key, cmd|
+    begin
+      result = `#{cmd}`.chomp
+    rescue Errno::ENOENT
+      result = 'not found'
+    end
+    puts "  - #{key}: #{result}"
+  end
+end
 
 namespace :test do
   # Prepare module and its dependencies as specified in Puppetfile.
@@ -85,9 +103,11 @@ namespace :test do
   end
   task :spec => [:prepare_modules, :prepare_manifests_for_rspec]
 
-  # TODO test:integration is currently the same as vagrant:provision; planning
-  # to execute some actual tests at the end of the configuration run here
-  desc 'Run integration tests with Vagrant'
+  desc 'Run serverspec integration tests with Vagrant'
+  RSpec::Core::RakeTask.new(:integration) do |t|
+    t.pattern = 'spec/integration/**/*_spec.rb'
+    t.rspec_opts = '--color --format documentation'
+  end
   task :integration => 'vagrant:provision'
 
   desc 'Tear down VM used for integration tests'
@@ -113,12 +133,8 @@ namespace :vagrant do
 
   desc 'Provision the VM using Puppet'
   task :provision => ['test:prepare_modules', 'test:prepare_manifests', :export_vars] do
-    # Provision VM depending on its state.
-    case `vagrant status`
-    when /The VM is running/ then ['provision']
-    when /To resume this VM/ then ['up', 'provision']
-    else ['up']
-    end.each { |cmd| sh 'vagrant', cmd }
+    sh 'vagrant', 'up', '--no-provision'
+    sh 'vagrant', 'provision'
   end
 
   desc 'SSH into the VM'
