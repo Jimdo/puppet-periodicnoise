@@ -273,7 +273,7 @@ describe 'periodicnoise::cron', :type => :define do
       let (:params) { error_case[:params] }
 
       it do
-        expect { catalogue }.to raise_error(Puppet::Error, error_case[:expected_error_pattern])
+        expect { catalogue(:define) }.to raise_error(Puppet::Error, error_case[:expected_error_pattern])
       end
     end
   end
