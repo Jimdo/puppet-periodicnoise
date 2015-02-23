@@ -13,6 +13,7 @@ class periodicnoise::params (
   $pn_disable_stderr_log        = $periodicnoise::defaults::pn_disable_stderr_log,
   $pn_use_syslog                = $periodicnoise::defaults::pn_use_syslog,
   $pn_wrap_nagios_plugin        = $periodicnoise::defaults::pn_wrap_nagios_plugin,
+  $pn_retries                   = $periodicnoise::defaults::pn_retries,
 
   $nagios_hostname              = $periodicnoise::defaults::nagios_hostname,
   $nagios_template              = $periodicnoise::defaults::nagios_template,

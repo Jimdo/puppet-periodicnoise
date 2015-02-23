@@ -11,6 +11,7 @@ class periodicnoise::defaults {
   $pn_disable_stderr_log        = false
   $pn_use_syslog                = true
   $pn_wrap_nagios_plugin        = false
+  $pn_retries                   = 0
 
   $nagios_hostname              = $::fqdn
   $nagios_template              = 'generic-service'
