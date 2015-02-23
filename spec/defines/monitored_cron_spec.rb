@@ -111,4 +111,19 @@ describe 'periodicnoise::monitored_cron', :type => :define do
     end
   end
 
+  context 'with retries set' do
+    let (:params) {{
+      :command           => 'some_cron_command',
+      :execution_timeout => '10m',
+      :retries           => 1,
+
+    }}
+
+    it 'should create a periodicnoise cron job' do
+      should contain_periodicnoise__cron('some_monitored_cron') \
+        .with_command('some_cron_command') \
+        .with_retries(1)
+    end
+  end
+
 end
