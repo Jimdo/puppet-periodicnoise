@@ -190,11 +190,12 @@ describe 'periodicnoise::cron', :type => :define do
       :disable_stdout_log         => true,
       :use_syslog                 => true,
       :execution_timeout          => '2m',
-      :wrap_nagios_plugin         => true
+      :wrap_nagios_plugin         => true,
+      :retries                    => 2,
     }}
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
-        .with_command('pn --monitor-event=\'some_event\' --max-start-delay=2m --timeout=2m --kill-running --no-stream-stdout --no-stream-stderr --use-syslog --wrap-nagios-plugin -- some_cron_command')
+        .with_command('pn --monitor-event=\'some_event\' --max-start-delay=2m --timeout=2m --kill-running --no-stream-stdout --no-stream-stderr --use-syslog --wrap-nagios-plugin --retries=2 -- some_cron_command')
     end
   end
 
@@ -224,6 +225,19 @@ describe 'periodicnoise::cron', :type => :define do
     it "should create a cronjob with event set" do
       should contain_cron('some_cronjob') \
         .with_command('/run/me --before pn --timeout=2m --use-syslog -- some_cron_command')
+    end
+
+  end
+
+  context "with a retry" do
+    let (:params) {{
+      :command            => 'some_cron_command',
+      :execution_timeout  => '2m',
+      :retries            => 1,
+    }}
+    it "should create a cronjob with event set" do
+      should contain_cron('some_cronjob') \
+        .with_command('pn --timeout=2m --use-syslog --retries=1 -- some_cron_command')
     end
 
   end

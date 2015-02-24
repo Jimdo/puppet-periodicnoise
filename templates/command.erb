@@ -9,6 +9,7 @@ option_string << " --no-stream-stdout" if @_disable_stdout_log == true
 option_string << " --no-stream-stderr" if @_disable_stderr_log == true
 option_string << " --use-syslog" if @_use_syslog == true
 option_string << " --wrap-nagios-plugin" if @_wrap_nagios_plugin == true
+option_string << " --retries=#{@_retries}" if @_retries != '0' and not @_retries.nil?
 @monitor_ok.each do |code|
   option_string << " --monitor-ok=#{code}"
 end

@@ -21,6 +21,7 @@ define periodicnoise::cron (
   $monitor_critical          = [],
   $monitor_unknown           = [],
   $pre_command               = undef,
+  $retries                   = undef,
 ) {
   include periodicnoise::params
 
@@ -43,6 +44,7 @@ define periodicnoise::cron (
   $_use_syslog                = $use_syslog ? { undef => $periodicnoise::params::pn_use_syslog, default => $use_syslog }
   $_wrap_nagios_plugin        = $wrap_nagios_plugin ? { undef => $periodicnoise::params::pn_wrap_nagios_plugin, default => $wrap_nagios_plugin }
   $_pre_command               = $pre_command ? { undef => undef, default => "${pre_command} " }
+  $_retries                   = $retries ? { undef => $periodicnoise::params::pn_retries, default => $retries }
 
   cron { $name:
     ensure    => $ensure,
