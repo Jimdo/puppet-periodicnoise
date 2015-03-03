@@ -1,5 +1,10 @@
 [monitoring]
-OK       = <% @send_to_host.each do |host| -%>printf "<%= @send_as_host -%>;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
-WARNING  = <% @send_to_host.each do |host| -%>printf "<%= @send_as_host -%>;%(event);1;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
-CRITICAL = <% @send_to_host.each do |host| -%>printf "<%= @send_as_host -%>;%(event);2;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
-UNKNOWN  = <% @send_to_host.each do |host| -%>printf "<%= @send_as_host -%>;%(event);3;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+<% if @send_to_host.is_a?(String) -%>
+<% hosts = [@send_to_host] -%>
+<% else -%>
+<% hosts = @send_to_host -%>
+<% end -%>
+OK       = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+WARNING  = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);1;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+CRITICAL = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);2;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+UNKNOWN  = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);3;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
