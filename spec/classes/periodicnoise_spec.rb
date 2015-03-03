@@ -20,4 +20,9 @@ describe 'periodicnoise' do
       .with_content(%r{somehost.example.com}) \
       .with_content(%r{monitor.example.com})
   end
+
+  it 'should send messages to one host' do
+    should contain_file('/etc/periodicnoise/config.ini')\
+      .with_content(Regexp.new Regexp.escape 'OK       = printf "somehost.example.com;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H monitor.example.com -d ";"')
+  end
 end
