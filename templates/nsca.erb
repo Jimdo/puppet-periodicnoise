@@ -1,5 +1,6 @@
+<% hosts = Array(@send_to_host) -%>
 [monitoring]
-OK       = printf "<%= @send_as_host -%>;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H <%= @send_to_host -%> -d ";"
-WARNING  = printf "<%= @send_as_host -%>;%(event);1;%(message)\n" |/usr/sbin/send_nsca -H <%= @send_to_host -%> -d ";"
-CRITICAL = printf "<%= @send_as_host -%>;%(event);2;%(message)\n" |/usr/sbin/send_nsca -H <%= @send_to_host -%> -d ";"
-UNKNOWN  = printf "<%= @send_as_host -%>;%(event);3;%(message)\n" |/usr/sbin/send_nsca -H <%= @send_to_host -%> -d ";"
+OK       = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+WARNING  = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);1;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+CRITICAL = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);2;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>
+UNKNOWN  = <% hosts.each do |host| -%>printf "<%= @send_as_host -%>;%(event);3;%(message)\n" |/usr/sbin/send_nsca -H <%= host -%> -d ";";<% end -%>

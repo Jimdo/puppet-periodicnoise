@@ -20,4 +20,20 @@ describe 'periodicnoise' do
       .with_content(%r{somehost.example.com}) \
       .with_content(%r{monitor.example.com})
   end
+
+  it 'should be configured globally to send messages to one host' do
+    should contain_file('/etc/periodicnoise/config.ini')\
+      .with_content(Regexp.new(Regexp.escape('OK       = printf "somehost.example.com;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H monitor.example.com -d ";"')))
+  end
+
+  context 'send to multiple hosts' do
+    let (:params) {{
+      :send_as_host => 'somehost.example.com',
+      :send_to_host => ['monitor1.example.com', 'monitor2.example.com'],
+    }}
+    it 'should be configured globally to send messages to 2 hosts' do
+      should contain_file('/etc/periodicnoise/config.ini')\
+        .with_content(Regexp.new(Regexp.escape('OK       = printf "somehost.example.com;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H monitor1.example.com -d ";";printf "somehost.example.com;%(event);0;%(message)\n" |/usr/sbin/send_nsca -H monitor2.example.com -d ";";')))
+    end
+  end
 end
